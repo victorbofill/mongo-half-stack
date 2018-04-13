@@ -14,29 +14,62 @@ describe('Friends API', () => {
         });
     });
 
-    let friend = {
+    const jacy = {
         name: 'Jacy',
         role: 'Drowning out Kasey'
     };
 
-    it('Saves a friend', () => {
+    const dean = {
+        name: 'Dean',
+        role: 'Smoking weed and telling us to hurry up'
+    };
+
+    const saveFriend = (friend) => {
         return chai.request(app)
             .post('/friends')
             .send(friend)
             .then(({ body }) => {
                 assert.ok(body._id);
-                assert.equal(body.name, friend.name);
-                friend = body;
+                friend._id = body._id;
+                return friend;
+            });
+    };
+
+    before(() => saveFriend(jacy));
+
+    const friends = [jacy, dean];
+
+    it('Saves a friend', () => {
+        return saveFriend(dean)
+            .then((body) => {
+                assert.equal(body.name, dean.name);
             });
     });
 
-    it('Gets friends', () => {
+    it('Gets all friends', () => {
         return chai.request(app)
             .get('/friends')
             .then(({ body }) => {
-                assert.deepEqual(body, [friend]);
+                assert.deepEqual(body, friends);
             });
     });
+
+    it('Deletes a friend', () => {
+        return chai.request(app)
+            .del(`/friends/${jacy._id}`)
+            .then (() => {
+                return chai.request(app)
+                    .get('/friends')
+                    .then(( { body }) => {
+                        assert.deepEqual(body, [dean]);
+                    });
+            });
+    });
+
+    it('Updates a friend', () => {
+        dean.high = true;
+    });
+
 
     after(() => mongo.client.close());
 });
