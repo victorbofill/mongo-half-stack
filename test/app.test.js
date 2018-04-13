@@ -22,7 +22,7 @@ describe('Friends API', () => {
     it('Saves a friend', () => {
         return chai.request(app)
             .post('/friends')
-            .sent(friend)
+            .send(friend)
             .then(({ body }) => {
                 assert.ok(body._id);
                 assert.equal(body.name, friend.name);
