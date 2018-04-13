@@ -2,3 +2,9 @@ language: node_js
 node_js:
   - "8"
 services: mongodb
+addons:
+  apt:
+    sources:
+    - mongodb-3.6-precise
+    packages:
+    - mongodb-org-server
