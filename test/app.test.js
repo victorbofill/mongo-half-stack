@@ -46,6 +46,7 @@ describe('Friends API', () => {
         return chai.request(app)
             .get('/friends')
             .then(({ body }) => {
+                console.log(body);
                 assert.deepEqual(body[1].name, dean.name);
             });
     });
