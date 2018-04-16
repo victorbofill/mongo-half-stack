@@ -35,14 +35,18 @@ describe('Friends API', () => {
             });
     };
 
-    before(() => saveFriend(jacy));
+    before(() => {
+        saveFriend(jacy);
+        saveFriend(dean);
+    });
 
     const friends = [jacy, dean];
 
     it('Saves a friend', () => {
-        return saveFriend(dean)
-            .then((body) => {
-                assert.equal(body.name, dean.name);
+        return chai.request(app)
+            .get('/friends')
+            .then(({ body }) => {
+                assert.deepEqual(body[1].name, dean.name);
             });
     });
 
@@ -68,6 +72,13 @@ describe('Friends API', () => {
 
     it('Updates a friend', () => {
         dean.high = true;
+        return chai.request(app)
+            .put(`/friends/${dean._id}`)
+            .send(dean)
+            .then(({ body }) => {
+                console.log("body: ", body);
+                assert.deepEqual(body.high, dean.high);
+            });
     });
 
 
