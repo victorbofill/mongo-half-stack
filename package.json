@@ -1,7 +1,7 @@
 {
   "name": "mongo-half-stack",
   "version": "1.0.0",
-  "description": "## Overview Using JS to manage a small Mongo DB.",
+  "description": "Using JS to manage a small Mongo DB.",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -9,7 +9,7 @@
   },
   "scripts": {
     "lint": "eslint .",
-    "//pretest": "npm run lint",
+    "pretest": "npm run lint",
     "test": "mocha",
     "test:watch": "nodemon --exec 'npm run test -- -w'",
     "start": "node server.js",
