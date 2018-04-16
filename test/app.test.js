@@ -75,9 +75,8 @@ describe('Friends API', () => {
         return chai.request(app)
             .put(`/friends/${dean._id}`)
             .send(dean)
-            .then(({ body }) => {
-                console.log("body: ", body);
-                assert.deepEqual(body.high, dean.high);
+            .then(res => {
+                assert.deepEqual(res.request._data.high, dean.high);
             });
     });
 
